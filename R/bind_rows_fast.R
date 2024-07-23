@@ -5,9 +5,9 @@ bind_rows_fast <- function(x) {
 
   r <-
     x |>
-    future_map(as.data.table) |>
-    rbindlist(fill = TRUE) |>
-    as_tibble()
+    furrr::future_map(data.table::as.data.table) |>
+    data.table::rbindlist(fill = TRUE) |>
+    dplyr::as_tibble()
 
   return(r)
 }

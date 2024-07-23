@@ -1,6 +1,6 @@
-join_month <- function(csvs, complex = TRUE) {
+month_merge <- function(csvs, year, month) {
   joined <-
-    csvs$csvs |>
+    csvs |>
     future_map(\(x) {
       vroom(file = x,
             delim = ";",
@@ -17,16 +17,8 @@ join_month <- function(csvs, complex = TRUE) {
       }) |>
     bind_rows_fast()
 
-  schema <- get_schema(csvs$year, csvs$month)
-  joined <- pl$DataFrame(joined)
+  schema <- get_schema(year, month)
+  joined <- pl$DataFrame(joined, schema = schema)
 
-  if (complex) {
-    return(list(
-      data = joined,
-      year = csvs$year,
-      month = csvs$month
-    ))
-  } else {
-    return(joined)
-  }
+  return(joined)
 }

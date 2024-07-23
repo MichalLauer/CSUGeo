@@ -1,0 +1,31 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+bind_rows_fast|function|46d00429d61e7c88|||||||||||||||
+corrected_2015_3|stem|a944dc43ff5aa160|34fb65d7bc1fca1f|ac9c4d83cf47770b|590944435||t19927.6361845681s|dcb6f4f9bcb93dc6|186|rds|local|vector|||0.01||
+corrected_2023_5|stem|557baa11d6b6f534|194cbde1e56e67f8|9a8cd2e8e71c014d|-1947037656||t19927.6362221672s|2d30c6a204266d65|207|rds|local|vector|||0.01||
+data|object|fffe4b6b16de0f21|||||||||||||||
+data_2015_3|stem|04591f70dbeec54b|834f9a19eb3c80d2|9ebf0dfe25d0d015|1667257021||t19927.63391507s||32262541|rds|local|vector|||21.67||object as.data.table not found
+data_2023_5|stem|928d54c16a2cf4b3|b17105a03f2904c8|2ebfdb686734e5b1|-621086870||t19927.6354921768s|a9009506244cefcb|37315159|rds|local|vector|||124.7||
+data_df|object|fffe4b6b16de0f21|||||||||||||||
+get_date|function|8ffc9b6f598469a3|||||||||||||||
+get_schema|function|eff756ce38129867|||||||||||||||
+month_correct|function|13e97c78a42151d9|||||||||||||||
+month_download|function|c667f1e1da3597e9|||||||||||||||
+month_get|function|c81c83c5faaa4b1e|||||||||||||||
+month_merge|function|47d5b7ccc1a927ca|||||||||||||||
+month_save|function|f96eb717d57d75e3|||||||||||||||
+month_url|function|442a7ca3c66735b1|||||||||||||||
+source_2015_3|stem|15a0276b7a642d90|81587b733e66963a|1ebc3e6bfd4437fb|-1938797990||t19927.4368354313s|06076334cca59fe3|113|rds|local|vector|||38.43||
+source_2023_5|stem|ca4c12d12cc9ff6c|d9dd471dfa299cc1|61ac73b8cfacb09b|2100033186||t19927.4373073552s|06076334cca59fe3|113|rds|local|vector|||40.73||
+url_2015_3|stem|d1508a5bf67fc879|00bd31f05e8e0142|6d8ceaed4290a588|-2115672895|https://vdp.cuzk.cz/vymenny_format/csv/20150331_OB_ADR_csv.zip|t19927.6382204178s||0|url|local|vector|||0.41|package rvest was built under R version 4.3.3. package httr was built under R version 4.3.1. package glue was built under R version 4.3.2. package purrr was built under R version 4.3.1. package future was built under R version 4.3.3. package polars was built under R version 4.3.3|
+url_2023_5|stem|83f25535c7e2065d|c7c415b170a7eab2|6d8ceaed4290a588|892388099|https://vdp.cuzk.cz/vymenny_format/csv/20230531_OB_ADR_csv.zip|t19927.6382239908s||0|url|local|vector|||0||
+bind_rows_fast|function|b91e4800239f2451
+month_correct|function|13e97c78a42151d9
+get_date|function|8ffc9b6f598469a3
+data_df|object|fffe4b6b16de0f21
+month_save|function|f96eb717d57d75e3
+get_schema|function|eff756ce38129867
+month_url|function|442a7ca3c66735b1
+month_download|function|c667f1e1da3597e9
+month_merge|function|a10980f3b4179dcf
+month_get|function|ae6d085ab2593d1a
+data_2015_3|stem|d6d72a485382ed09|834f9a19eb3c80d2|06889aa2249ccf2d|1667257021||t19927.6524352912s|06b07c2c04015d19|17164564|rds|local|vector|||36.19||
