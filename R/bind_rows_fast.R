@@ -2,11 +2,10 @@ bind_rows_fast <- function(..., save_file = NULL) {
 
   r <-
     list(...) |>
-    furrr::future_map(data.table::as.data.table) |>
-    data.table::rbindlist(fill = TRUE) |>
-    dplyr::as_tibble()
+    furrr::future_map(polars::pl$LazyFrame) |>
+    (\(x) polars::pl$concat(x)$collect() )()
 
-  if (!is.null(save)) {
+  if (!is.null(save_file)) {
     dir <- dirname(save_file)
     if (!dir.exists(dir)) {
       dir.create(dir, recursive = T)
