@@ -11,9 +11,8 @@ month_download <- function(year, month, url, path = "data-downloaded") {
   if (status_code(hd) == 200) {
     tryCatch({
       file <- glue("{path}/data.zip")
-      a<-download.file(url = url,
+      download.file(url = url,
                     destfile = file)
-      print(a)
       unzip(zipfile = file,
             junkpaths = TRUE,
             overwrite = T,
