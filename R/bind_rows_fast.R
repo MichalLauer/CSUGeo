@@ -1,7 +1,12 @@
 bind_rows_fast <- function(..., save_file = NULL) {
 
+  dots <- rlang::list2(...)
+  if (length(dots) == 1 && rlang::is_bare_list(dots[[1]])) {
+    dots <- dots[[1]]
+  }
+
   r <-
-    list(...) |>
+    dots |>
     furrr::future_map(polars::pl$LazyFrame) |>
     (\(x) polars::pl$concat(x)$collect() )()
 
