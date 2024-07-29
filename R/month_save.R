@@ -1,4 +1,4 @@
-month_save <- function(year, month, df, save_dir = "data-joined") {
+month_save <- function(year, month, df, save_dir = "data_joined") {
   date <- get_date(year, month)
   if (!dir.exists(save_dir)) {
     dir.create(save_dir)

@@ -1,4 +1,4 @@
-month_download <- function(year, month, url, path = "data-downloaded") {
+month_download <- function(year, month, url, path = "data_downloaded") {
   date <- get_date(year, month)
 
   path <- glue("{path}/{year}/{month}")

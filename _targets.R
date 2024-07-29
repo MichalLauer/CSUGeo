@@ -1,18 +1,22 @@
-# Main calls
+# Vyčisti pamět
+gc()
+rm(list = ls())
+
+# Hlavní balíčky
 library(targets)
 library(tarchetypes)
 
-# Reading
+# Čtení dat
 library(httr)
 library(vroom)
 
-# Wrangling
+# Manipulace s daty
 library(purrr)
 library(furrr)
 library(dplyr)
 library(polars)
 
-# Misc
+# Ostatní
 library(checkmate)
 library(glue)
 library(cli)
@@ -26,63 +30,35 @@ tar_option_set(
 )
 
 invisible(lapply(X = list.files(path = "R", full.names = T), FUN = source))
-plan(multisession, workers = availableCores() - 1)
+# plan(multisession, workers = availableCores() - 1)
 
+# Data která stáhnout
 data_df <- dplyr::tibble(
-  year = c(2015, 2023),
-  month = c(3, 5)
-)
-
-list(
-  tar_map(
-    values = data_df,
-    tar_target(url, month_url(year=year, month=month), format="url",
-               description = "URL odkazující na portál vdp.cuzk.cz"),
-    tar_target(source, month_download(year=year, month=month, url=url),
-               description = "Stáhnutí dat a rozbalení do .csv")
+  year = c(
+    rep(2015, times = 12)
+  ),
+  month = c(
+    rep(1:12, times = 1)
   )
 )
 
-# tgt_joined <- tar_combine(
-#   combined,
-#   tgt_combined[["correct"]],
-#   command = bind_rows_fast(!!!.x, save_file="data-joined/all.parquet")
-# )
+tgt_combined <-
+  tar_map(
+    values = data_df,
+    tar_target(url, month_url(year=year, month=month), format="url",
+               description = "Vytvoř URL odkazující na portál vdp.cuzk.cz."),
+    tar_target(source, month_download(year=year, month=month, url=url),
+               description = "Stáhni .zip a rozbalení do .csv."),
+    tar_target(data, month_merge(source, year, month),
+               description = "Spoj všechny .csv do jednoho roku."),
+    tar_target(correct, month_correct(data),
+    description = "Sjednoť jednotlivé měsíce do stejného formátu.")
+  )
 
-lsts <- list.files("data-downloaded/2023/5/", pattern = "\\.csv$", full.names = T)
-lsts <- lsts[2:101]
-
-microbenchmark::microbenchmark(
-  "map" = {
-    lsts |>
-      future_map(\(x) {
-        vroom(file = x,
-              delim = ";",
-              col_types = cols(
-                .default = col_character()
-              ),
-              locale = locale(encoding = "Windows-1250"),
-              show_col_types = F,
-              .name_repair = function(x) {
-                x |>
-                  snakecase::to_snake_case() |>
-                  iconv(from = 'UTF-8', to = 'ASCII//TRANSLIT')
-              })
-      })
-  },
-  "one" = {
-    vroom(file = lsts[-1],
-          delim = ";",
-          col_types = cols(
-            .default = col_character()
-          ),
-          locale = locale(encoding = "Windows-1250"),
-          show_col_types = F,
-          .name_repair = function(x) {
-            x |>
-              snakecase::to_snake_case() |>
-              iconv(from = 'UTF-8', to = 'ASCII//TRANSLIT')
-          })
-  }
-  times = 1
+tgt_joined <- tar_combine(
+  combined,
+  tgt_combined[["correct"]],
+  command = bind_rows_fast(!!!.x, save_file="data_joined/all.parquet")
 )
+
+list(tgt_combined, tgt_joined)

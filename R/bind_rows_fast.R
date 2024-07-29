@@ -18,5 +18,7 @@ bind_rows_fast <- function(..., save_file = NULL) {
 
     pl$DataFrame(r)$write_parquet(save_file)
   }
+
+  r <- as_tibble(r)
   return(r)
 }
