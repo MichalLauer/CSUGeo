@@ -1,6 +1,7 @@
 month_merge <- function(dir, year, month, save_dir = "data_joined") {
   csvs <- list.files(dir, pattern = "\\.csv$", full.names = T)
   cols <- get_schema(year, month, type = "csv")
+  date <- get_date(year, month)
 
   joined <-
     csvs |>
@@ -12,7 +13,8 @@ month_merge <- function(dir, year, month, save_dir = "data_joined") {
             x |>
               snakecase::to_snake_case() |>
               iconv(from = 'UTF-8', to = 'ASCII//TRANSLIT')
-          })
+          }) |> 
+    mutate(source = date)
 
   if (!is.null(save_dir)) {
     if (!dir.exists(save_dir)) {

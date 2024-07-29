@@ -8,7 +8,11 @@ bind_rows_fast <- function(..., save_file = NULL) {
   r <-
     dots |>
     furrr::future_map(polars::pl$LazyFrame) |>
-    (\(x) polars::pl$concat(x)$collect() )()
+    (\(x) {
+      pl$with_string_cache({
+        polars::pl$concat(x)$collect() 
+      })
+    })()
 
   if (!is.null(save_file)) {
     dir <- dirname(save_file)
