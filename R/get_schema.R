@@ -1,6 +1,18 @@
-get_schema <- function(year, month, type = c("parquet", "csv")) {
-  type <- match.arg(type)
+#' Schéma pro data
+#'
+#' Vrací různé typy schéma podle toho, z jakého datumu jsou data sebraná.
+#'
+#' @param year Rok
+#' @param month Měsíc
+#' @param type Typ schéma, které vrátit.
+#'   - polars - schéma pro polars [polars::pl$DataFrame()]/[polars::pl$LazyFrame()]
+#'   - csv - schéma pro [vroom::vroom()]
+#'
+#' @return Zvolené schéma
+get_schema <- function(year, month, type = c("polars", "csv")) {
   date <- get_date(year, month)
+  type <- match.arg(type)
+
   if (date <= as.Date("2018-01-01")) {
     return(.get_schema_short(type))
   } else {
@@ -9,9 +21,18 @@ get_schema <- function(year, month, type = c("parquet", "csv")) {
 
 }
 
-.get_schema_short  <- function(type = c("parquet", "csv")) {
+#' Krátké schéma
+#'
+#' Krátké schéma pro datové soubory generované před 2018-01-01
+#'
+#' @param type Typ schéma, které vrátit.
+#'   - polars - schéma pro polars [polars::pl$DataFrame()]/[polars::pl$LazyFrame()]
+#'   - csv - schéma pro [vroom::vroom()]
+#'
+#' @return Zvolené schéma
+.get_schema_short  <- function(type = c("polars", "csv")) {
   type <- match.arg(type)
-  if (type == "parquet") {
+  if (type == "polars") {
     return(list(
       kod_adm = pl$String,
       kod_obce = pl$Categorical(),
@@ -52,8 +73,17 @@ get_schema <- function(year, month, type = c("parquet", "csv")) {
   }
 }
 
-.get_schema_long  <- function(type = c("parquet", "csv")) {
-  if (type == "parquet") {
+#' Dlouhé schéma
+#'
+#' Dlouhé schéma pro datové soubory generované po 2018-01-01
+#'
+#' @param type Typ schéma, které vrátit.
+#'   - polars - schéma pro polars [polars::pl$DataFrame()]/[polars::pl$LazyFrame()]
+#'   - csv - schéma pro [vroom::vroom()]
+#'
+#' @return Zvolené schéma
+.get_schema_long  <- function(type = c("polars", "csv")) {
+  if (type == "polars") {
     return(list(
       kod_adm = pl$String,
       kod_obce = pl$Categorical(),

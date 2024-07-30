@@ -1,6 +1,5 @@
 # Vyčisti pamět
 gc()
-rm(list = ls())
 
 # Hlavní balíčky
 library(targets)
