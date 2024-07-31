@@ -10,14 +10,14 @@ data z portálu [CUZK](https://vdp.cuzk.cz/).
 
 # Flow
 
-> Jak skript funguje? <br/> Tvoří se nějaké důležité proměnné? Podle
-> jaké speciální logiky? <br/>
+> Jak skript funguje? <br/> Tvoří se nějaké důležité proměnné podle jaké
+> speciální logiky? <br/>
 
 Skript je složený z několika `month_` funkcí, které jsou po sobě logicky
 volány v Targets workflow. Postup zpracování je následující:
 
-- stažení .zip souboru s daty a rozbalení do .csv
-- spojení všech .csv souboru do jedné tabulky reprezentující měsíc v
+- stažení .zip souboru s daty a rozbalení do *.csv*
+- spojení všech *.csv* souboru do jedné tabulky reprezentující měsíc v
   daném roce
 - spojení všech tabulek přes měsíce a roky do jedné historické tabulky
 
@@ -46,9 +46,9 @@ většině případů to ale bude poslední datum, které je staženo.
 - 🤖 `data_downloaded/` - stáhnutá data z CZUK ve formátu
   - `data_downloaded/rok/mesic/data.zip` - hlavní stažená data
   - `data_downloaded/rok/mesic/XXX.csv` - rozbalené *.csv* soubory
-- 🤖 `data_joined/` - spojená data v *.paruqet* formátu
+- 🤖 `data_joined/` - spojená data v *.parquet* formátu
   - `data_joined/joined_rok_mesic.paquert` - spojená data za daný měsíc
-    `data_joined/all.paquert` - finální spojená a opravená tabulka
+  - `data_joined/all.paquert` - finální spojená a opravená tabulka
 
 # Spuštění
 
@@ -78,4 +78,18 @@ nových datech jsou následující změny:
 - přidaná proměnná `kod_ulice`
 
 Jelikož se `kod_` proměnné objevují až nově, jsou historicky (tam, kde
-to je možné) doplněny.
+to je možné) doplněny. U těchto nových údajů není změnené datum
+`plati_od` a proto je nutné kody doplnit ještě před tím, než se data
+spojí.
+
+Nespouštět poslední den v měsíci, jelikož se aktualizuje databáze ČZUK a
+nefunguje žádný odkaz.
+
+------------------------------------------------------------------------
+
+TODO:
+
+- možná prepsat z tar_map na normální tar_target(…, map = X)
+- udělat mezikrok tak, aby si tar cachoval jak URL, tak jednotlivé CSV
+  soubory
+- fix duplicitních řádků

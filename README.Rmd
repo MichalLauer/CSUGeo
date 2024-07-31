@@ -92,5 +92,16 @@ V nových datech jsou následující změny:
 - proměnná `nazev_mop` je přejmenovaná na `nazev_obvodu_prahy`
 - přidaná proměnná `kod_ulice`
 
-Jelikož se `kod_` proměnné objevují až nově, jsou historicky (tam, kde to je možné) 
-doplněny.
+Jelikož se `kod_` proměnné objevují až nově, jsou historicky (tam, kde to je možné) doplněny. U těchto nových údajů není změnené datum `plati_od` a proto
+je nutné kody doplnit ještě před tím, než se data spojí.
+
+Nespouštět poslední den v měsíci, jelikož se aktualizuje databáze ČZUK
+a nefunguje žádný odkaz.
+
+- - -
+
+TODO:
+
+- možná prepsat z tar_map na normální tar_target(..., map = X)
+- udělat mezikrok tak, aby si tar cachoval jak URL, tak jednotlivé CSV soubory
+- fix duplicitních řádků
