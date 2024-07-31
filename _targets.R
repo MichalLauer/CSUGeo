@@ -1,6 +1,3 @@
-# Vyčisti pamět
-gc()
-
 # Hlavní balíčky
 library(targets)
 library(tarchetypes)
@@ -34,13 +31,36 @@ invisible(lapply(X = list.files(path = "R", full.names = T), FUN = source))
 # Data která stáhnout
 data_df <- dplyr::tibble(
   year = c(
+    rep(2012, times = 1),
+    rep(2013, times = 12),
+    rep(2014, times = 12),
     rep(2015, times = 12),
-    rep(2021, times = 12)
+    rep(2016, times = 12),
+    rep(2017, times = 12),
+    rep(2018, times = 12),
+    rep(2019, times = 12),
+    rep(2020, times = 12),
+    rep(2021, times = 12),
+    rep(2022, times = 12),
+    rep(2023, times = 12),
+    rep(2024, times = 6)
   ),
   month = c(
-    rep(1:12, times = 2)
+    12,
+    rep(1:12, times = 11),
+    1:6
   )
 )
+
+known_broken <- tribble(
+  ~"year", ~"month",
+  2019,    2,
+  2018,    11
+)
+
+data_df <-
+  data_df |> 
+  anti_join(known_broken, by = join_by(year, month))
 
 tgt_combined <-
   tar_map(
@@ -55,10 +75,20 @@ tgt_combined <-
                description = "Sjednoť jednotlivé měsíce do stejného formátu.")
   )
 
+tgt_enums <- list(
+  tar_combine(enums, tgt_combined[["correct"]], command = month_align(!!!.x)),
+  tar_target(enum_obce, month_enum(enums, variable = "obce")),
+  tar_target(enum_momc, month_enum(enums, variable = "momc")),
+  tar_target(enum_obvodu_prahy, month_enum(enums, variable = "obvodu_prahy")),
+  tar_target(enum_casti_obce, month_enum(enums, variable = "casti_obce")),
+  tar_target(enum_ulice, month_enum(enums, variable = "ulice"))
+)
+
+
 tgt_joined <- tar_combine(
   combined,
   tgt_combined[["correct"]],
   command = month_join(!!!.x, save_file="data_joined/all.parquet")
 )
 
-list(tgt_combined, tgt_joined)
+list(tgt_combined, tgt_enums, tgt_joined)

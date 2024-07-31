@@ -17,7 +17,7 @@ month_merge <- function(dir, year, month, save_dir = "data_joined") {
   cols <- get_schema(year, month, type = "csv")
 
   joined <-
-    csvs |>
+    csvs[1:2] |>
     vroom(delim = ";",
           col_types = cols,
           locale = locale(encoding = "Windows-1250"),
