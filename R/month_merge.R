@@ -8,7 +8,7 @@
 #' @param save_dir Kam spojený měsíc uložit. V případe `NULL` se neuloží.
 #'
 #' @return Spojená [tibble::tibble()] tabulka.
-month_merge <- function(dir, year, month, save_dir = getOptions("path_data_joined")) {
+month_merge <- function(dir, year, month, save_dir = getOption("path_data_joined")) {
   assert_string(dir)
   date <- get_date(year, month)
   assert_string(save_dir, null.ok = TRUE)
@@ -21,8 +21,7 @@ month_merge <- function(dir, year, month, save_dir = getOptions("path_data_joine
     vroom(delim = ";",
           col_types = cols,
           locale = locale(encoding = "Windows-1250"),
-          # show_col_types = F,
-          # guess_max = 0,
+          show_col_types = F,
           .name_repair = function(x) {
             x |>
               snakecase::to_snake_case() |>
@@ -43,5 +42,3 @@ month_merge <- function(dir, year, month, save_dir = getOptions("path_data_joine
 
   return(joined)
 }
-
-month_download(2021, 12, tar_read(url_2021_12), path = "F:/ML_Geo/data_downloaded")

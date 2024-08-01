@@ -24,7 +24,7 @@ if (superPC) {
   options("path_data_downloaded" = "F:/geo/data_downloaded")
   options("path_data_joined" = "F:/geo/data_joined")
   options("path_data_enums" = "F:/geo/data_enums")
-  optoins("file_data_joined" = "F:/gep/data_joined/all.parquet")
+  options("file_data_joined" = "F:/gep/data_joined/all.parquet")
 } else {
 
 }
@@ -104,7 +104,7 @@ tgt_enums <- list(
 tgt_joined <- tar_combine(
   combined,
   tgt_combined[["correct"]],
-  command = month_join(!!!.x, save_file="F:/geo/data_joined/all.parquet")
+  command = month_join(!!!.x)
 )
 
 list(tgt_combined, tgt_enums, tgt_joined)

@@ -1,7 +1,6 @@
 month_enum <- function(enums,
                        variable = c("obce", "momc", "obvodu_prahy", "casti_obce", "ulice"),
-                       save_dir = getOptions("path_data_enums")) {
-
+                       save_dir = getOption("path_data_enums")) {
   variable <- match.arg(variable)
 
   r <-
