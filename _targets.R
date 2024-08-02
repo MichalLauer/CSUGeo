@@ -9,7 +9,6 @@ library(vroom)
 
 # Manipulace s daty
 library(purrr)
-library(furrr)
 library(dplyr)
 library(polars)
 
@@ -18,30 +17,20 @@ library(checkmate)
 library(glue)
 library(cli)
 
-# Cesty
-superPC <- TRUE
-if (superPC) {
-  options("path_data_downloaded" = "F:/geo/data_downloaded")
-  options("path_data_joined" = "F:/geo/data_joined")
-  options("path_data_enums" = "F:/geo/data_enums")
-  options("file_data_joined" = "F:/gep/data_joined/all.parquet")
-} else {
-
-}
-
 tar_option_set(
   resources = tar_resources(
     parquet = tar_resources_parquet()
   ),
   # memory = "transient",
   # garbage_collection = TRUE
-  controller = crew_controller_local(
-    workers = availableCores() - 1,
-  )
+  # controller = crew_controller_local(
+  #   workers = 50,
+  #   seconds_idle = 1,
+  #   launch_max = 100
+  # )
 )
 
 invisible(lapply(X = list.files(path = "R", full.names = T), FUN = source))
-plan(multisession, workers = availableCores() - 1)
 
 # Data která stáhnout
 data_df <- dplyr::tibble(
@@ -75,36 +64,33 @@ known_broken <- tribble(
 
 data_df <-
   data_df |>
-  anti_join(known_broken, by = join_by(year, month))
+  anti_join(known_broken, by = join_by(year, month)) |>
+  mutate(date = get_date(year, month),
+         url = month_url(date),
+         zip = glue("F:/geo/data_downloaded/{year}/{month}/{date}.zip"))
 
-tgt_combined <-
-  tar_map(
-    values = data_df,
-    tar_target(url, month_url(year=year, month=month), format="url",
-               description = "Vytvoř URL odkazující na portál vdp.cuzk.cz."),
-    tar_target(source, month_download(year=year, month=month, url=url),
-               deployment = "main", # Jinak by pořád padal server kvůli hodně dotazům
-               description = "Stáhni .zip a rozbalení do .csv."),
-    tar_target(data, month_merge(source, year, month),
-               description = "Spoj všechny .csv do jednoho roku."),
-    tar_target(correct, month_correct(data),
-               description = "Sjednoť jednotlivé měsíce do stejného formátu.")
-  )
+data_df <- filter(data_df, year == 2015, month == 1)
 
-tgt_enums <- list(
-  tar_combine(enums, tgt_combined[["correct"]], command = month_align(!!!.x)),
-  tar_target(enum_obce, month_enum(enums, variable = "obce")),
-  tar_target(enum_momc, month_enum(enums, variable = "momc")),
-  tar_target(enum_obvodu_prahy, month_enum(enums, variable = "obvodu_prahy")),
-  tar_target(enum_casti_obce, month_enum(enums, variable = "casti_obce")),
-  tar_target(enum_ulice, month_enum(enums, variable = "ulice"))
+tgt_combined <- list(
+    tar_download(zip_file, data_df$url, data_df$url),
+    tar_target(data, month_merge(zip_file), pattern = map(zip_file)),
+    tar_target(corrected, month_correct(data), pattern = map(data))
 )
 
+# tgt_enums <- list(
+#   tar_combine(enums, tgt_combined[["correct"]], command = month_prepare_enums(!!!.x)),
+#   tar_target(enum_obce, month_enum(enums, variable = "obce")),
+#   tar_target(enum_momc, month_enum(enums, variable = "momc")),
+#   tar_target(enum_obvodu_prahy, month_enum(enums, variable = "obvodu_prahy")),
+#   tar_target(enum_casti_obce, month_enum(enums, variable = "casti_obce")),
+#   tar_target(enum_ulice, month_enum(enums, variable = "ulice"))
+# )
 
-tgt_joined <- tar_combine(
-  combined,
-  tgt_combined[["correct"]],
-  command = month_join(!!!.x)
-)
 
-list(tgt_combined, tgt_enums, tgt_joined)
+# tgt_joined <- tar_combine(
+#   combined,
+#   tgt_combined[["correct"]],
+#   command = month_join(!!!.x)
+# )
+
+list(tgt_combined)

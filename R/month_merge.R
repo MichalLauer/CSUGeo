@@ -8,14 +8,21 @@
 #' @param save_dir Kam spojený měsíc uložit. V případe `NULL` se neuloží.
 #'
 #' @return Spojená [tibble::tibble()] tabulka.
-month_merge <- function(dir, year, month, save_dir = getOption("path_data_joined")) {
-  assert_string(dir)
-  date <- get_date(year, month)
-  assert_string(save_dir, null.ok = TRUE)
+month_merge <- function(zip) {
 
-  csvs <- list.files(dir, pattern = "\\.csv$", full.names = T)
-  cols <- get_schema(year, month, type = "csv")
+  # Unzip
+  dir <- dirname(zip)
+  unzip(zip,
+        junkpaths = TRUE,
+        overwrite = T,
+        exdir = dir)
 
+  # Read
+  date <- as.Date(tools::file_path_sans_ext(basename(zip)))
+  cols <- get_schema(date, type = "csv")
+  csvs <- list.files(dir, full.names = T, pattern = "\\.csv$")
+
+  # Join
   joined <-
     csvs |>
     vroom(delim = ";",
@@ -29,16 +36,8 @@ month_merge <- function(dir, year, month, save_dir = getOption("path_data_joined
           }) |>
     mutate(source = date)
 
-  if (!is.null(save_dir)) {
-    if (!dir.exists(save_dir)) {
-      dir.create(save_dir, recursive = T)
-    }
-
-    schema <- get_schema(year, month)
-    joined_pl <- pl$DataFrame(joined, schema = schema)
-    path <- glue("{save_dir}/{year}_{month}.parquet")
-    joined_pl$write_parquet(path)
-  }
+  # Remove csvs
+  walk(csvs, file.remove)
 
   return(joined)
 }

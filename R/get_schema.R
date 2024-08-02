@@ -9,8 +9,8 @@
 #'   - csv - schéma pro [vroom::vroom()]
 #'
 #' @return Zvolené schéma
-get_schema <- function(year, month, type = c("polars", "csv")) {
-  date <- get_date(year, month)
+get_schema <- function(date, type = c("polars", "csv")) {
+  date <- as.Date(date)
   type <- match.arg(type)
 
   if (date <= as.Date("2017-11-01")) {

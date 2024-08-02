@@ -27,7 +27,7 @@ month_join <- function(..., save_file = getOption("file_data_joined")) {
 
   r <-
     dots |>
-    future_map(\(x) {
+    map(\(x) {
       pl$LazyFrame(x, schema = schema)
     }) |>
     (\(x) {
