@@ -44,11 +44,7 @@ většině případů to ale bude poslední datum, které je staženo.
 
 - ✍️ `R/` - všechny hlavní funkce
 - 🤖 `data_downloaded/` - stáhnutá data z CZUK ve formátu
-  - `data_downloaded/rok/mesic/data.zip` - hlavní stažená data
-  - `data_downloaded/rok/mesic/XXX.csv` - rozbalené *.csv* soubory
-- 🤖 `data_joined/` - spojená data v *.parquet* formátu
-  - `data_joined/joined_rok_mesic.paquert` - spojená data za daný měsíc
-  - `data_joined/all.paquert` - finální spojená a opravená tabulka
+  - `data_downloaded/rok/mesic/rok-mesic-01.zip` - hlavní stažená data
 
 # Spuštění
 
@@ -69,27 +65,21 @@ zatížený, ale nefunguje to vždy.
 
 > Jsou data divná? <br/> Existují nějaké nekonzistence? <br/>
 
-Data mění svoji strukturu, a to konkrétně mezi roky 2017 a 2018. V
-nových datech jsou následující změny:
+## Schéma
 
-- přidaná proměnná `kod_momc`
-- přidaná proměnná `kod_obvodu_prahy`
-- proměnná `nazev_mop` je přejmenovaná na `nazev_obvodu_prahy`
-- přidaná proměnná `kod_ulice`
+Zdrojová data v čase mění svou strukturu. První změna nastává mezi
+říjnem a listopadem v r. 2017 (tedy mezi 2017-10 a 2017-11), kdy
 
-Jelikož se `kod_` proměnné objevují až nově, jsou historicky (tam, kde
-to je možné) doplněny. U těchto nových údajů není změnené datum
-`plati_od` a proto je nutné kody doplnit ještě před tím, než se data
-spojí.
+- je přidaná proměnná `kod_momc`,
+- přidaná proměnná `kod_obvodu_prahy`, a
+- přidaná proměnná `kod_ulice`.
 
-Nespouštět poslední den v měsíci, jelikož se aktualizuje databáze ČZUK a
-nefunguje žádný odkaz.
+Druhá změna je na přelomu roku 2020/2021 (tedy mezi 2020-12 a 2021-1),
+kdy jsou přejmenované dvě proměnné.
 
-------------------------------------------------------------------------
+- `kod_mop` -\> `kod_obvodu_prahy`
+- `nazev_mop` -\> `nazev_obvodu_prahy`
 
-TODO:
+## Velikost
 
-- možná prepsat z tar_map na normální tar_target(…, map = X)
-- udělat mezikrok tak, aby si tar cachoval jak URL, tak jednotlivé CSV
-  soubory
-- fix duplicitních řádků
+Všechna data zaberou min. 50Gb.
