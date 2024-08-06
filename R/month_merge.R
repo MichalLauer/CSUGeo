@@ -34,9 +34,11 @@ month_merge <- function(zip) {
               snakecase::to_snake_case() |>
               iconv(from = 'UTF-8', to = 'ASCII//TRANSLIT')
           }) |>
-    mutate(source = date)
+    mutate(source = date,
+           plati_od = as.Date(plati_od))
 
   # Remove csvs
+  # Háže Permission denied, unlink nepomohl
   walk(csvs, file.remove)
 
   return(joined)

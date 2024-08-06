@@ -1,32 +1,34 @@
-# Hlavní balíčky
-library(targets)
-library(crew)
-library(tarchetypes)
-
-# Čtení dat
-library(httr)
-library(vroom)
-
-# Manipulace s daty
-library(purrr)
-library(dplyr)
-library(polars)
-
-# Ostatní
-library(checkmate)
-library(glue)
-library(cli)
+suppressMessages({suppressWarnings({
+  # Hlavní balíčky
+  library(targets)
+  library(crew)
+  library(tarchetypes)
+  
+  # Čtení dat
+  library(httr)
+  library(vroom)
+  
+  # Manipulace s daty
+  library(purrr)
+  library(dplyr)
+  library(polars)
+  
+  # Ostatní
+  library(checkmate)
+  library(glue)
+  library(cli)
+})})
 
 tar_option_set(
   resources = tar_resources(
     parquet = tar_resources_parquet()
   ),
   # memory = "transient",
-  # garbage_collection = TRUE
+  # garbage_collection = TRUE,
   # controller = crew_controller_local(
-  #   workers = 50,
+  #   workers = 1,
   #   seconds_idle = 1,
-  #   launch_max = 100
+  #   launch_max = 5
   # )
 )
 
@@ -55,7 +57,7 @@ data_df <- dplyr::tibble(
     1:6
   )
 )
-
+options(warn = 1)
 known_broken <- tribble(
   ~"year", ~"month",
   2019,    2,
@@ -64,18 +66,26 @@ known_broken <- tribble(
 
 data_df <-
   data_df |>
+  filter(
+    (year == 2017 & month == 10) |
+    (year == 2017 & month == 11) |
+    (year == 2017 & month == 12) |
+    (year == 2018 & month == 1) |
+    (year == 2018 & month == 2)
+  ) |> 
   anti_join(known_broken, by = join_by(year, month)) |>
   mutate(date = get_date(year, month),
-         url = month_url(date),
-         zip = glue("F:/geo/data_downloaded/{year}/{month}/{date}.zip"))
+         zip = glue("D:/geo/data_downloaded/{year}/{month}/{date}.zip"))
 
-data_df <- filter(data_df, year == 2015, month == 1)
-
-tgt_combined <- list(
-    tar_download(zip_file, data_df$url, data_df$url),
-    tar_target(data, month_merge(zip_file), pattern = map(zip_file)),
-    tar_target(corrected, month_correct(data), pattern = map(data))
+tgt_combined <- tar_map(
+  values = data_df,
+  names = 1:2,
+  unlist = FALSE,
+  tar_target(url, month_url(date), format = "url"),
+  tar_target(data, month_get(url, zip)),
+  tar_target(correct, month_correct(data))
 )
+
 
 # tgt_enums <- list(
 #   tar_combine(enums, tgt_combined[["correct"]], command = month_prepare_enums(!!!.x)),
@@ -86,11 +96,10 @@ tgt_combined <- list(
 #   tar_target(enum_ulice, month_enum(enums, variable = "ulice"))
 # )
 
+tgt_joined <- tar_combine(
+  combined,
+  tgt_combined[["correct"]],
+  command = month_join(!!!.x)
+)
 
-# tgt_joined <- tar_combine(
-#   combined,
-#   tgt_combined[["correct"]],
-#   command = month_join(!!!.x)
-# )
-
-list(tgt_combined)
+list(tgt_combined, tgt_joined)

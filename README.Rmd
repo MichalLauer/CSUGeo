@@ -86,19 +86,23 @@ nefunguje to vždy.
 
 ## Schéma
 
-Data mění svoji strukturu, a to konkrétně mezi roky 2017 a 2018.
-V nových datech jsou následující změny:
+Zdrojová data v čase mění svou strukturu. První změna nastává mezi říjnem
+a listopadem v r. 2017 (tedy mezi 2017-10 a 2017-11), kdy 
 
-- přidaná proměnná `kod_momc`
-- přidaná proměnná `kod_obvodu_prahy`
-- proměnná `nazev_mop` je přejmenovaná na `nazev_obvodu_prahy`
-- přidaná proměnná `kod_ulice`
+- je přidaná proměnná `kod_momc`,
+- přidaná proměnná `kod_obvodu_prahy`, a
+- přidaná proměnná `kod_ulice`.
 
-Jelikož se `kod_` proměnné objevují až nově, jsou historicky (tam, kde to je možné) doplněny. U těchto nových údajů není změnené datum `plati_od` a proto
-je nutné kody doplnit ještě před tím, než se data spojí.
+ Druhá změna je na přelomu roku 2020/2021 (tedy mezi 2020-12 a 2021-1), kdy
+ jsou přejmenované dvě proměnné.
 
-Nespouštět poslední den v měsíci, jelikož se aktualizuje databáze ČZUK
-a nefunguje žádný odkaz.
+- `kod_mop` -> `kod_obvodu_prahy`
+- `nazev_mop` -> `nazev_obvodu_prahy`
+
+## Manuální úprava `plati_od`
+
+V roce r. 2017 se mění schéma dat a jsou přidané nové proměnné. Tohle ale není
+reflektováno v údaji `plati_od` a proto vše
 
 ## Velikost
 
@@ -108,6 +112,4 @@ Všechna data zaberou min. 50Gb.
 
 TODO:
 
-- možná prepsat z tar_map na normální tar_target(..., map = X)
-- udělat mezikrok tak, aby si tar cachoval jak URL, tak jednotlivé CSV soubory
 - fix duplicitních řádků

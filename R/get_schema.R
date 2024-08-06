@@ -13,6 +13,7 @@ get_schema <- function(date, type = c("polars", "csv")) {
   date <- as.Date(date)
   type <- match.arg(type)
 
+  # Mezi 2017-10 a 2017-11
   if (date <= as.Date("2017-11-01")) {
     return(.get_schema_short(type))
   } else if (date <= as.Date("2021-01-01")) {
@@ -51,22 +52,22 @@ get_schema <- function(date, type = c("polars", "csv")) {
       psc = pl$Int32,
       souradnice_y = pl$Float32,
       souradnice_x = pl$Float32,
-      plati_od = pl$Datetime()
+      plati_od = pl$Date
     ))
   } else {
     return(cols(
       kod_adm = col_character(),
-      kod_obce = col_factor(include_na = TRUE),
-      nazev_obce = col_factor(include_na = TRUE),
-      nazev_momc = col_factor(include_na = TRUE),
-      nazev_mop = col_factor(include_na = TRUE),
-      kod_casti_obce = col_factor(include_na = TRUE),
-      nazev_casti_obce = col_factor(include_na = TRUE),
-      nazev_ulice = col_factor(include_na = TRUE),
-      typ_so = col_factor(include_na = TRUE),
+      kod_obce = col_factor(),
+      nazev_obce = col_factor(),
+      nazev_momc = col_factor(),
+      nazev_mop = col_factor(),
+      kod_casti_obce = col_factor(),
+      nazev_casti_obce = col_factor(),
+      nazev_ulice = col_factor(),
+      typ_so = col_factor(),
       cislo_domovni = col_integer(),
       cislo_orientacni = col_integer(),
-      znak_cisla_orientacniho = col_factor(include_na = TRUE),
+      znak_cisla_orientacniho = col_factor(),
       psc = col_integer(),
       souradnice_y = col_double(),
       souradnice_x = col_double(),
@@ -105,25 +106,25 @@ get_schema <- function(date, type = c("polars", "csv")) {
       psc = pl$Int32,
       souradnice_y = pl$Float32,
       souradnice_x = pl$Float32,
-      plati_od = pl$Datetime()
+      plati_od = pl$Date
     ))
   } else {
     return(cols(
       kod_adm = col_character(),
-      kod_obce = col_factor(include_na = TRUE),
-      nazev_obce = col_factor(include_na = TRUE),
-      kod_momc = col_factor(include_na = TRUE), # Navíc
-      nazev_momc = col_factor(include_na = TRUE),
-      kod_mop = col_factor(include_na = TRUE), # Navíc
-      nazev_mop = col_factor(include_na = TRUE),
-      kod_casti_obce = col_factor(include_na = TRUE),
-      nazev_casti_obce = col_factor(include_na = TRUE),
-      kod_ulice = col_factor(include_na = TRUE), # Navíc
-      nazev_ulice = col_factor(include_na = TRUE),
-      typ_so = col_factor(include_na = TRUE),
+      kod_obce = col_factor(),
+      nazev_obce = col_factor(),
+      kod_momc = col_factor(), # Navíc
+      nazev_momc = col_factor(),
+      kod_mop = col_factor(), # Navíc
+      nazev_mop = col_factor(),
+      kod_casti_obce = col_factor(),
+      nazev_casti_obce = col_factor(),
+      kod_ulice = col_factor(), # Navíc
+      nazev_ulice = col_factor(),
+      typ_so = col_factor(),
       cislo_domovni = col_integer(),
       cislo_orientacni = col_integer(),
-      znak_cisla_orientacniho = col_factor(include_na = TRUE),
+      znak_cisla_orientacniho = col_factor(),
       psc = col_integer(),
       souradnice_y = col_double(),
       souradnice_x = col_double(),
@@ -168,24 +169,24 @@ get_schema <- function(date, type = c("polars", "csv")) {
   } else {
     return(cols(
       kod_adm = col_character(),
-      kod_obce = col_factor(include_na = TRUE),
-      nazev_obce = col_factor(include_na = TRUE),
-      kod_momc = col_factor(include_na = TRUE),
-      nazev_momc = col_factor(include_na = TRUE),
-      kod_obvodu_prahy = col_factor(include_na = TRUE),
-      nazev_obvodu_prahy = col_factor(include_na = TRUE), # Přejmenováno
-      kod_casti_obce = col_factor(include_na = TRUE), # Přejmenováno
-      nazev_casti_obce = col_factor(include_na = TRUE),
-      kod_ulice = col_factor(include_na = TRUE),
-      nazev_ulice = col_factor(include_na = TRUE),
-      typ_so = col_factor(include_na = TRUE),
+      kod_obce = col_factor(),
+      nazev_obce = col_factor(),
+      kod_momc = col_factor(),
+      nazev_momc = col_factor(),
+      kod_obvodu_prahy = col_factor(),
+      nazev_obvodu_prahy = col_factor(), # Přejmenováno
+      kod_casti_obce = col_factor(), # Přejmenováno
+      nazev_casti_obce = col_factor(),
+      kod_ulice = col_factor(),
+      nazev_ulice = col_factor(),
+      typ_so = col_factor(),
       cislo_domovni = col_integer(),
       cislo_orientacni = col_integer(),
-      znak_cisla_orientacniho = col_factor(include_na = TRUE),
+      znak_cisla_orientacniho = col_factor(),
       psc = col_integer(),
       souradnice_y = col_double(),
       souradnice_x = col_double(),
-      plati_od = col_datetime()
+      plati_od = Date
     ))
   }
 }
