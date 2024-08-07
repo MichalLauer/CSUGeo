@@ -35,11 +35,11 @@ tar_option_set(
 options(warn = 1)
 invisible(lapply(X = list.files(path = "R", full.names = T), FUN = source))
 
+# Data která stáhnout
 date_range <- seq(from = config::get("date_from"),
                   to = config::get("date_to"),
                   by = "month")
 
-# Data která stáhnout
 known_broken <- tribble(
   ~"year", ~"month",
   2019,    2,
@@ -51,7 +51,7 @@ data_df <- tibble(
   year     = as.integer(format(raw_date, "%Y")),
   month    = as.integer(format(raw_date, "%m")),
   date     = get_date(year = year, month = month),
-  zip = glue("{config::get('download_to')}/{year}/{month}/{date}.zip")
+  zip      = glue("{config::get('download_to')}/{year}/{month}/{date}.zip")
 ) |> 
   anti_join(known_broken, by = join_by(year, month))
 
