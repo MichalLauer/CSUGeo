@@ -24,7 +24,7 @@ volány v Targets workflow. Postup zpracování je následující:
 - spojení všech tabulek přes měsíce a roky do jedné historické tabulky
 
 Finální historická tabulka sleduje to, jak se v čase měnili proměnné.
-Pokud nějake adresní místo změnil např. do 2022-05-05, v datech to bude
+Pokud nějaké adresní místo změnil např. do 2022-05-05, v datech to bude
 reprezentováno pomocí sloupečků `plati_od` a `plati_do`
 
 | kod_adm | plati_od   | plati_do   |
@@ -34,7 +34,7 @@ reprezentováno pomocí sloupečků `plati_od` a `plati_do`
 
 Data ve sloupečku `plati_do` se generují manuálně. U posledního
 (nejnovějšího) záznamu je v `plati_do` datum, kdy se naposledy dané
-adresní místo vyskytovalo v datech od CZUK. Pokud se tedy adresní místo
+adresní místo vyskytovalo v datech od CUZK. Pokud se tedy adresní místo
 přestalo vykazovat na konci listopadu 2021 (v tomto měsíci se naposledy
 v datech vyskytl `kod_adm`), sloupec `plati_do` bude 2021-11-30. Ve
 většině případů to ale bude poslední datum, které je staženo.
@@ -45,19 +45,19 @@ většině případů to ale bude poslední datum, které je staženo.
 > automaticky? (✍️ - manuálně, 🤖 - automaticky) <br/>
 
 - ✍️ `R/` - všechny hlavní funkce
-- 🤖 `data_downloaded/` - stáhnutá data z CZUK ve formátu
+- 🤖 `data_downloaded/` - stáhnutá data z CUZK ve formátu
   - `data_downloaded/rok/mesic/rok-mesic-01.zip` - hlavní stažená data
 
 # Spuštění
 
-> Jak kód spusti? <br/> Co je hlavní (startovací) skript? <br/> Je nutné
-> něco před tím stáhnout? <br/> Jsou nějaké problémy na které lze
+> Jak kód spustit? <br/> Co je hlavní (startovací) skript? <br/> Je
+> nutné něco před tím stáhnout? <br/> Jsou nějaké problémy na které lze
 > narazit? <br/>
 
 Pro spuštění kódu stačí nakolonvat repositář a spustit v R konzoli
 `targets::tar_make()`.
 
-Občas se může stát, že skript spadne při stahování dat z CZUK, protože
+Občas se může stát, že skript spadne při stahování dat z CUZK, protože
 dostanete timeout. V takovém případě stačí znovu spustit
 `targets::tar_make()` a skript se restartuje v bodě, kde přestal.
 Problém se snažím řešit pomocí `Sys.sleep(1)`, aby server nebyl tolik

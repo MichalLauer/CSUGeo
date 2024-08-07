@@ -1,28 +1,30 @@
-suppressMessages({suppressWarnings({
-  # Hlavní balíčky
-  library(targets)
-  library(crew)
-  library(tarchetypes)
-  
-  # Čtení dat
-  library(httr)
-  library(vroom)
-  
-  # Manipulace s daty
-  library(purrr)
-  library(dplyr)
-  library(polars)
-  
-  # Ostatní
-  library(checkmate)
-  library(glue)
-  library(cli)
-})})
+suppressMessages({
+  suppressWarnings({
+    # Hlavní balíčky
+    library(targets)
+    library(crew)
+    library(tarchetypes)
+
+    # Čtení dat
+    library(httr)
+    library(vroom)
+
+    # Manipulace s daty
+    library(purrr)
+    library(dplyr)
+    library(polars)
+
+    # Ostatní
+    library(checkmate)
+    library(glue)
+    library(cli)
+  })
+})
 
 tar_option_set(
   resources = tar_resources(
     parquet = tar_resources_parquet()
-  ),
+  )
   # memory = "transient",
   # garbage_collection = TRUE,
   # controller = crew_controller_local(
@@ -33,12 +35,14 @@ tar_option_set(
 )
 
 options(warn = 1)
-invisible(lapply(X = list.files(path = "R", full.names = T), FUN = source))
+invisible(lapply(X = list.files(path = "R", full.names = TRUE), FUN = source))
 
 # Data která stáhnout
-date_range <- seq(from = config::get("date_from"),
-                  to = config::get("date_to"),
-                  by = "month")
+date_range <- seq(
+  from = config::get("date_from"),
+  to = config::get("date_to"),
+  by = "month"
+)
 
 known_broken <- tribble(
   ~"year", ~"month",
@@ -52,7 +56,7 @@ data_df <- tibble(
   month    = as.integer(format(raw_date, "%m")),
   date     = get_date(year = year, month = month),
   zip      = glue("{config::get('download_to')}/{year}/{month}/{date}.zip")
-) |> 
+) |>
   anti_join(known_broken, by = join_by(year, month))
 
 tgt_combined <- tar_map(
@@ -66,7 +70,8 @@ tgt_combined <- tar_map(
 
 
 # tgt_enums <- list(
-#   tar_combine(enums, tgt_combined[["correct"]], command = month_prepare_enums(!!!.x)),
+#   tar_combine(enums, tgt_combined[["correct"]],
+#               command = month_prepare_enums(!!!.x)),
 #   tar_target(enum_obce, month_enum(enums, variable = "obce")),
 #   tar_target(enum_momc, month_enum(enums, variable = "momc")),
 #   tar_target(enum_obvodu_prahy, month_enum(enums, variable = "obvodu_prahy")),
