@@ -32,50 +32,28 @@ tar_option_set(
   # )
 )
 
+options(warn = 1)
 invisible(lapply(X = list.files(path = "R", full.names = T), FUN = source))
 
+date_range <- seq(from = config::get("date_from"),
+                  to = config::get("date_to"),
+                  by = "month")
+
 # Data která stáhnout
-data_df <- dplyr::tibble(
-  year = c(
-    rep(2012, times = 1),
-    rep(2013, times = 12),
-    rep(2014, times = 12),
-    rep(2015, times = 12),
-    rep(2016, times = 12),
-    rep(2017, times = 12),
-    rep(2018, times = 12),
-    rep(2019, times = 12),
-    rep(2020, times = 12),
-    rep(2021, times = 12),
-    rep(2022, times = 12),
-    rep(2023, times = 12),
-    rep(2024, times = 6)
-  ),
-  month = c(
-    12,
-    rep(1:12, times = 11),
-    1:6
-  )
-)
-options(warn = 1)
 known_broken <- tribble(
   ~"year", ~"month",
   2019,    2,
   2018,    11
 )
 
-data_df <-
-  data_df |>
-  filter(
-    (year == 2017 & month == 10) |
-    (year == 2017 & month == 11) |
-    (year == 2017 & month == 12) |
-    (year == 2018 & month == 1) |
-    (year == 2018 & month == 2)
-  ) |> 
-  anti_join(known_broken, by = join_by(year, month)) |>
-  mutate(date = get_date(year, month),
-         zip = glue("D:/geo/data_downloaded/{year}/{month}/{date}.zip"))
+data_df <- tibble(
+  raw_date = date_range,
+  year     = as.integer(format(raw_date, "%Y")),
+  month    = as.integer(format(raw_date, "%m")),
+  date     = get_date(year = year, month = month),
+  zip = glue("{config::get('download_to')}/{year}/{month}/{date}.zip")
+) |> 
+  anti_join(known_broken, by = join_by(year, month))
 
 tgt_combined <- tar_map(
   values = data_df,

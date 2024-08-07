@@ -13,6 +13,8 @@ data z portálu [CUZK](https://vdp.cuzk.cz/).
 > Jak skript funguje? <br/> Tvoří se nějaké důležité proměnné podle jaké
 > speciální logiky? <br/>
 
+Parametry jsou managed pomocí {config}
+
 Skript je složený z několika `month_` funkcí, které jsou po sobě logicky
 volány v Targets workflow. Postup zpracování je následující:
 

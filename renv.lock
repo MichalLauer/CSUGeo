@@ -193,6 +193,16 @@
       ],
       "Hash": "c089a619a7fae175d149d89164f8c7d8"
     },
+    "config": {
+      "Package": "config",
+      "Version": "0.3.2",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "yaml"
+      ],
+      "Hash": "8b7222e9d9eb5178eea545c0c4d33fc2"
+    },
     "cpp11": {
       "Package": "cpp11",
       "Version": "0.4.7",

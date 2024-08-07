@@ -9,14 +9,3 @@ options(
   repos = repos
 )
 rm(repos)
-
-# Cesty
-superPC <- TRUE
-if (superPC) {
-  options("path_data_downloaded" = "F:/geo/data_downloaded")
-  options("path_data_joined" = "F:/geo/data_joined")
-  options("path_data_enums" = "F:/geo/data_enums")
-  options("file_data_joined" = "F:/gep/data_joined/all.parquet")
-} else {
-
-}
