@@ -164,7 +164,7 @@ get_schema <- function(date, type = c("polars", "csv")) {
       psc = pl$Int32,
       souradnice_y = pl$Float32,
       souradnice_x = pl$Float32,
-      plati_od = pl$Datetime()
+      plati_od = pl$Date
     ))
   } else {
     return(cols(
@@ -186,7 +186,7 @@ get_schema <- function(date, type = c("polars", "csv")) {
       psc = col_integer(),
       souradnice_y = col_double(),
       souradnice_x = col_double(),
-      plati_od = Date
+      plati_od = col_datetime()
     ))
   }
 }

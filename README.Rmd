@@ -100,6 +100,12 @@ jsou přejmenované dvě proměnné.
 - `kod_mop` -> `kod_obvodu_prahy`
 - `nazev_mop` -> `nazev_obvodu_prahy`
 
-## Velikost
+Relevantní odkazy:
 
-Všechna data zaberou min. 50Gb.
+ - [20170927 Úprava CSV souborů AM](https://cuzk.gov.cz/ruian/Poskytovani-udaju-ISUI-RUIAN-VDP/Vymenny-format-RUIAN-(VFR)/Archiv-novinek-VFR/2017/20170927-Uprava-CSV-souboru-AM.aspx?feed=ff823b71-27f0-41b5-aaac-82cbf2d7d96b)
+ - 
+
+## Výkon
+
+Všechna stažená data zaberou min. 50Gb. Skript trvá zhruba hodinu a je potřeba 
+min. 35Gb RAMky.

@@ -1,5 +1,5 @@
 month_download <- function(url, destfile, tries = 3, wait = 5, timeout = 180) {
-  
+
   MAX_TRIES <- tries
   options(timeout = timeout)
   on.exit({
@@ -24,7 +24,7 @@ month_download <- function(url, destfile, tries = 3, wait = 5, timeout = 180) {
     if (!inherits(result, "error") && !inherits(result, "warning") ) {
       break;
     } else {
-      Sys.sleep(tries)
+      Sys.sleep(wait)
       tries <- tries - 1
       cli_alert_info(glue("{url} selhala, {MAX_TRIES - tries}/{MAX_TRIES}"))
       cli_alert_info(result)
