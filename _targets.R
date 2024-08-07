@@ -21,17 +21,24 @@ suppressMessages({
   })
 })
 
+crew_local <- crew_controller_local(
+  name = "local",
+  workers = 140,
+  seconds_idle = Inf
+)
+
+crew_download <- crew_controller_local(
+  name = "download",
+  workers = 3,
+  seconds_idle = 3*60
+)
+
 tar_option_set(
+  controller = crew_controller_group(crew_local, crew_download),
   resources = tar_resources(
-    parquet = tar_resources_parquet()
+    parquet = tar_resources_parquet(),
+    crew = tar_resources_crew(controller = "local")
   )
-  # memory = "transient",
-  # garbage_collection = TRUE,
-  # controller = crew_controller_local(
-  #   workers = 1,
-  #   seconds_idle = 1,
-  #   launch_max = 5
-  # )
 )
 
 options(warn = 1)
@@ -54,17 +61,21 @@ data_df <- tibble(
   raw_date = date_range,
   year     = as.integer(format(raw_date, "%Y")),
   month    = as.integer(format(raw_date, "%m")),
-  date     = get_date(year = year, month = month),
-  zip      = glue("{config::get('download_to')}/{year}/{month}/{date}.zip")
+  date     = get_date(year = year, month = month)
 ) |>
   anti_join(known_broken, by = join_by(year, month))
 
 tgt_combined <- tar_map(
   values = data_df,
-  names = 1:2,
+  names = c(year, month),
   unlist = FALSE,
-  tar_target(url, month_url(date), format = "url"),
-  tar_target(data, month_get(url, zip)),
+  tar_target(url, month_url(date), format = "url",
+             deployment = "main"),
+  tar_target(zip, month_download(url, date, year, month),
+             resources = tar_resources(
+               crew = tar_resources_crew(controller = "download")
+             )),
+  tar_target(data, month_merge(zip)),
   tar_target(correct, month_correct(data))
 )
 

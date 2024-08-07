@@ -1,10 +1,13 @@
-month_download <- function(url, destfile, tries = 3, wait = 5, timeout = 180) {
+month_download <- function(url, date, year, month, tries = 3, wait = 5, timeout = 180) {
 
   MAX_TRIES <- tries
   options(timeout = timeout)
   on.exit({
     options(timeout = 60)
   })
+
+  date <- as.Date(date)
+  destfile <- glue("{config::get('download_to')}/{year}/{month}/{date}.zip")
 
   # Před stáhnutím musí existovat prázdná složka
   destdir <- dirname(destfile)
@@ -35,5 +38,6 @@ month_download <- function(url, destfile, tries = 3, wait = 5, timeout = 180) {
     stop(glue("{url} nelze stáhnout."))
   } else {
     cli_alert_info(glue("{url} OK."))
+    return(destfile)
   }
 }
