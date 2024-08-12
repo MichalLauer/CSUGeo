@@ -24,7 +24,7 @@ month_join <- function(...) {
 
   # Potřebuju to nejnovější schema
   schema <- get_schema("2030-01-01")
-  
+
   pl$with_string_cache({
     # Prvotní spojení do jednoho
     lazy_joined <-
@@ -33,51 +33,32 @@ month_join <- function(...) {
         pl$LazyFrame(x, schema = schema)
       })
 
-    # V případě, že je víc duplicitních záznamu kod_adm <-> plati_do, tak se vezme
-    # řádek s méně NA hodnotamy. To nastává hlavně v r. 2017 kdy se přidá kód,
-    # ale nezmění platnost
-    lazy_joined <- 
+    lazy_joined <-
       pl$
       concat(lazy_joined)$
-      with_columns(
-        pl$col("source")$max()$over("kod_adm")$alias("posledni_zaznam")
-      )$
-      drop("source")$
-      unique()$
-      with_columns(
-        pl$sum_horizontal(pl$all()$is_null())$alias("missing_count")
-      )$
-      sort("missing_count")$
-      collect()$
+      # V případě, že je víc duplicitních záznamu kod_adm <-> plati_do, tak se vezme
+      # řádek s méně NA hodnotamy. To nastává hlavně v r. 2017 kdy se přidá kód,
+      # ale nezmění platnost
       group_by(c("kod_adm", "plati_od"))$
-      first()$
-      drop("missing_count")
-  
-    # Spočítej od-do kdy záznam platí
-    lazy_joined <- 
-      pl$
-      LazyFrame(lazy_joined)$
-      unique()$
-      sort("kod_adm", "plati_od", descending = T)$
+      agg(
+        pl$all()$sort_by("source", descending = TRUE)$first()
+      )$
+      sort(
+        "kod_adm", "plati_od",
+        descending = c(F, T)
+      )$
       with_columns(
         pl$col("plati_od")$shift(1)$over("kod_adm")$alias("plati_do")
       )$
       with_columns(
-        pl$col("plati_do") - pl$duration(days=1)
-      )$
-      with_columns(
-        pl$col("plati_do")$fill_null(pl$col("posledni_zaznam"))
-      )$
-      with_columns(
-        pl$col("plati_od")$cast(pl$Date),
-        pl$col("plati_do")$cast(pl$Date)
+        ( pl$col("plati_do") - pl$duration(days=1) )$fill_null(pl$col("source"))
       )$
       collect()
   })
-    
+
   r <-
-    as_tibble(lazy_joined) |> 
-    relocate(plati_od, .after = souradnice_x) |> 
+    as_tibble(lazy_joined) |>
+    relocate(plati_od, .after = souradnice_x) |>
     relocate(plati_do, .after = plati_od)
 
   return(r)

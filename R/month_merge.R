@@ -20,7 +20,7 @@ month_merge <- function(zip) {
   # Read
   date <- as.Date(tools::file_path_sans_ext(basename(zip)))
   cols <- get_schema(date, type = "csv")
-  csvs <- list.files(dir, full.names = T, pattern = "\\.csv$")
+  csvs <- list.files(dir, full.names = T, pattern = "ADR\\.csv$")
 
   # Join
   joined <-

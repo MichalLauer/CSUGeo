@@ -23,7 +23,7 @@ suppressMessages({
 
 crew_local <- crew_controller_local(
   name = "local",
-  workers = 140,
+  workers = 1,
   seconds_idle = Inf
 )
 
@@ -35,6 +35,7 @@ crew_download <- crew_controller_local(
 
 tar_option_set(
   controller = crew_controller_group(crew_local, crew_download),
+  garbage_collection = TRUE,
   resources = tar_resources(
     parquet = tar_resources_parquet(),
     crew = tar_resources_crew(controller = "local")
@@ -65,6 +66,15 @@ data_df <- tibble(
 ) |>
   anti_join(known_broken, by = join_by(year, month))
 
+
+# data_df <-
+#   data_df |> 
+#   filter(
+#     (year == 2017 & month %in% c(9, 10, 11, 12)) |
+#     (year == 2020 & month >= 11) |
+#     (year == 2021 & month <= 2)
+#   )
+
 tgt_combined <- tar_map(
   values = data_df,
   names = c(year, month),
@@ -72,6 +82,7 @@ tgt_combined <- tar_map(
   tar_target(url, month_url(date), format = "url",
              deployment = "main"),
   tar_target(zip, month_download(url, date, year, month),
+             error = "continue",
              resources = tar_resources(
                crew = tar_resources_crew(controller = "download")
              )),

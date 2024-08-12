@@ -103,7 +103,6 @@ jsou přejmenované dvě proměnné.
 Relevantní odkazy:
 
  - [20170927 Úprava CSV souborů AM](https://cuzk.gov.cz/ruian/Poskytovani-udaju-ISUI-RUIAN-VDP/Vymenny-format-RUIAN-(VFR)/Archiv-novinek-VFR/2017/20170927-Uprava-CSV-souboru-AM.aspx?feed=ff823b71-27f0-41b5-aaac-82cbf2d7d96b)
- - 
 
 ## Výkon
 
