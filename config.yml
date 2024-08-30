@@ -1,4 +1,7 @@
 default:
   date_from:   !expr as.Date("2012-12-01")
   date_to:     !expr as.Date("2024-06-01")
-  download_to: !expr file.path("./", "geo", "downloaded_data")
+  download_to: !expr file.path("./", "data_downloaded")
+  extract_to:  !expr file.path("./", "data_extracted")
+  correct_to:  !expr file.path("./", "data_corrected")
+  merge_to:    !expr file.path("./", "data_merged")

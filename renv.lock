@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.3.0",
+    "Version": "4.3.2",
     "Repositories": [
       {
         "Name": "Posit",
@@ -13,22 +13,6 @@
     ]
   },
   "Packages": {
-    "Matrix": {
-      "Package": "Matrix",
-      "Version": "1.5-4",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Requirements": [
-        "R",
-        "graphics",
-        "grid",
-        "lattice",
-        "methods",
-        "stats",
-        "utils"
-      ],
-      "Hash": "e779c7d9f35cc364438578f334cffee2"
-    },
     "R6": {
       "Package": "R6",
       "Version": "2.5.1",
@@ -39,22 +23,11 @@
       ],
       "Hash": "470851b6d5d0ac559e9d01bb352b4021"
     },
-    "Rcpp": {
-      "Package": "Rcpp",
-      "Version": "1.0.13",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "methods",
-        "utils"
-      ],
-      "Hash": "f27411eb6d9c3dada5edd444b8416675"
-    },
     "askpass": {
       "Package": "askpass",
       "Version": "1.2.0",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "sys"
       ],
@@ -64,7 +37,7 @@
       "Package": "backports",
       "Version": "1.5.0",
       "Source": "Repository",
-      "Repository": "https://cloud.r-project.org",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R"
       ],
@@ -74,21 +47,11 @@
       "Package": "base64enc",
       "Version": "0.1-3",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R"
       ],
       "Hash": "543776ae6848fde2f48ff3816d0628bc"
-    },
-    "base64url": {
-      "Package": "base64url",
-      "Version": "1.4",
-      "Source": "Repository",
-      "Repository": "https://cran.rstudio.com",
-      "Requirements": [
-        "backports"
-      ],
-      "Hash": "0c54cf3a08cc0e550fbd64ad33166143"
     },
     "bit": {
       "Package": "bit",
@@ -118,7 +81,7 @@
       "Package": "bslib",
       "Version": "0.7.0",
       "Source": "Repository",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R",
         "base64enc",
@@ -147,24 +110,11 @@
       ],
       "Hash": "cd9a672193789068eb5a2aad65a0dedf"
     },
-    "callr": {
-      "Package": "callr",
-      "Version": "3.7.6",
-      "Source": "Repository",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "Requirements": [
-        "R",
-        "R6",
-        "processx",
-        "utils"
-      ],
-      "Hash": "d7e13f49c19103ece9e58ad2d83a7354"
-    },
     "checkmate": {
       "Package": "checkmate",
       "Version": "2.3.1",
       "Source": "Repository",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R",
         "backports",
@@ -225,52 +175,15 @@
       ],
       "Hash": "859d96e65ef198fd43e82b9628d593ef"
     },
-    "crew": {
-      "Package": "crew",
-      "Version": "0.9.5",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "R6",
-        "cli",
-        "data.table",
-        "getip",
-        "later",
-        "mirai",
-        "nanonext",
-        "processx",
-        "promises",
-        "ps",
-        "rlang",
-        "stats",
-        "tibble",
-        "tidyselect",
-        "tools",
-        "utils"
-      ],
-      "Hash": "1498e9c5b0f2a644d7c4a8534c9d20fe"
-    },
     "curl": {
       "Package": "curl",
       "Version": "5.2.1",
       "Source": "Repository",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R"
       ],
       "Hash": "411ca2c03b1ce5f548345d2fc2685f7a"
-    },
-    "data.table": {
-      "Package": "data.table",
-      "Version": "1.15.4",
-      "Source": "Repository",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "Requirements": [
-        "R",
-        "methods"
-      ],
-      "Hash": "8ee9ac56ef633d0c7cab8b2ca87d683e"
     },
     "digest": {
       "Package": "digest",
@@ -340,7 +253,7 @@
       "Package": "fontawesome",
       "Version": "0.5.2",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R",
         "htmltools",
@@ -352,12 +265,43 @@
       "Package": "fs",
       "Version": "1.6.4",
       "Source": "Repository",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R",
         "methods"
       ],
       "Hash": "15aeb8c27f5ea5161f9f6a641fafd93a"
+    },
+    "furrr": {
+      "Package": "furrr",
+      "Version": "0.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "future",
+        "globals",
+        "lifecycle",
+        "purrr",
+        "rlang",
+        "vctrs"
+      ],
+      "Hash": "da7a4c32196cb2262a41dd5a25d486ff"
+    },
+    "future": {
+      "Package": "future",
+      "Version": "1.34.0",
+      "Source": "Repository",
+      "Repository": "Posit",
+      "Requirements": [
+        "digest",
+        "globals",
+        "listenv",
+        "parallel",
+        "parallelly",
+        "utils"
+      ],
+      "Hash": "475771e3edb711591476be387c9a8c2e"
     },
     "generics": {
       "Package": "generics",
@@ -370,15 +314,16 @@
       ],
       "Hash": "15e9634c0fcd294799e9b2e929ed1b86"
     },
-    "getip": {
-      "Package": "getip",
-      "Version": "0.1-4",
+    "globals": {
+      "Package": "globals",
+      "Version": "0.16.3",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
-        "R"
+        "R",
+        "codetools"
       ],
-      "Hash": "0e81e7f976441581680fa2ebc5866212"
+      "Hash": "2580567908cafd4f187c1e5a91e98b7f"
     },
     "glue": {
       "Package": "glue",
@@ -420,7 +365,7 @@
       "Package": "htmltools",
       "Version": "0.5.8.1",
       "Source": "Repository",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R",
         "base64enc",
@@ -436,7 +381,7 @@
       "Package": "httr",
       "Version": "1.4.7",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R",
         "R6",
@@ -447,34 +392,11 @@
       ],
       "Hash": "ac107251d9d9fd72f0ca8049988f1d7f"
     },
-    "igraph": {
-      "Package": "igraph",
-      "Version": "2.0.3",
-      "Source": "Repository",
-      "Repository": "https://cran.rstudio.com",
-      "Requirements": [
-        "Matrix",
-        "R",
-        "cli",
-        "cpp11",
-        "grDevices",
-        "graphics",
-        "lifecycle",
-        "magrittr",
-        "methods",
-        "pkgconfig",
-        "rlang",
-        "stats",
-        "utils",
-        "vctrs"
-      ],
-      "Hash": "c3b7d801d722e26e4cd888e042bf9af5"
-    },
     "jquerylib": {
       "Package": "jquerylib",
       "Version": "0.1.4",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "htmltools"
       ],
@@ -484,7 +406,7 @@
       "Package": "jsonlite",
       "Version": "1.8.8",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "methods"
       ],
@@ -494,7 +416,7 @@
       "Package": "knitr",
       "Version": "1.48",
       "Source": "Repository",
-      "Repository": "https://cran.rstudio.com",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "evaluate",
@@ -505,32 +427,6 @@
         "yaml"
       ],
       "Hash": "acf380f300c721da9fde7df115a5f86f"
-    },
-    "later": {
-      "Package": "later",
-      "Version": "1.3.2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "Rcpp",
-        "rlang"
-      ],
-      "Hash": "a3e051d405326b8b0012377434c62b37"
-    },
-    "lattice": {
-      "Package": "lattice",
-      "Version": "0.21-8",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Requirements": [
-        "R",
-        "grDevices",
-        "graphics",
-        "grid",
-        "stats",
-        "utils"
-      ],
-      "Hash": "0b8a6d63c8770f02a8b5635f3c431e6b"
     },
     "lifecycle": {
       "Package": "lifecycle",
@@ -544,6 +440,29 @@
         "rlang"
       ],
       "Hash": "b8552d117e1b808b09a832f589b79035"
+    },
+    "listenv": {
+      "Package": "listenv",
+      "Version": "0.9.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "e2fca3e12e4db979dccc6e519b10a7ee"
+    },
+    "lubridate": {
+      "Package": "lubridate",
+      "Version": "1.9.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "generics",
+        "methods",
+        "timechange"
+      ],
+      "Hash": "680ad542fbcf801442c83a6ac5a2126c"
     },
     "magrittr": {
       "Package": "magrittr",
@@ -559,7 +478,7 @@
       "Package": "memoise",
       "Version": "2.0.1",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "cachem",
         "rlang"
@@ -570,42 +489,33 @@
       "Package": "mime",
       "Version": "0.12",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "tools"
       ],
       "Hash": "18e9c28c1d3ca1560ce30658b22ce104"
     },
-    "mirai": {
-      "Package": "mirai",
-      "Version": "1.1.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "nanonext"
-      ],
-      "Hash": "f8b0cda5304cad0b629e98c09aad5471"
-    },
-    "nanonext": {
-      "Package": "nanonext",
-      "Version": "1.1.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "1f884ea35086b957409a9d351eaa2d9e"
-    },
     "openssl": {
       "Package": "openssl",
       "Version": "2.2.0",
       "Source": "Repository",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "askpass"
       ],
       "Hash": "2bcca3848e4734eb3b16103bc9aa4b8e"
+    },
+    "parallelly": {
+      "Package": "parallelly",
+      "Version": "1.38.0",
+      "Source": "Repository",
+      "Repository": "Posit",
+      "Requirements": [
+        "parallel",
+        "tools",
+        "utils"
+      ],
+      "Hash": "6e8b139c1904f5e9e14c69db64453bbe"
     },
     "pillar": {
       "Package": "pillar",
@@ -638,7 +548,7 @@
       "Package": "polars",
       "Version": "0.18.0",
       "Source": "Repository",
-      "Repository": "https://community.r-multiverse.org",
+      "Repository": "https://r-multiverse.r-universe.dev",
       "Requirements": [
         "R",
         "codetools",
@@ -657,19 +567,6 @@
       ],
       "Hash": "6b01fc98b1e86c4f705ce9dcfd2f57c7"
     },
-    "processx": {
-      "Package": "processx",
-      "Version": "3.8.4",
-      "Source": "Repository",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "Requirements": [
-        "R",
-        "R6",
-        "ps",
-        "utils"
-      ],
-      "Hash": "0c90a7d71988856bad2a2a45dd871bb9"
-    },
     "progress": {
       "Package": "progress",
       "Version": "1.2.3",
@@ -684,32 +581,17 @@
       ],
       "Hash": "f4625e061cb2865f111b47ff163a5ca6"
     },
-    "promises": {
-      "Package": "promises",
-      "Version": "1.3.0",
+    "progressr": {
+      "Package": "progressr",
+      "Version": "0.14.0",
       "Source": "Repository",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "Requirements": [
-        "R6",
-        "Rcpp",
-        "fastmap",
-        "later",
-        "magrittr",
-        "rlang",
-        "stats"
-      ],
-      "Hash": "434cd5388a3979e74be5c219bcd6e77d"
-    },
-    "ps": {
-      "Package": "ps",
-      "Version": "1.7.7",
-      "Source": "Repository",
-      "Repository": "https://cran.rstudio.com",
+      "Repository": "Posit",
       "Requirements": [
         "R",
+        "digest",
         "utils"
       ],
-      "Hash": "878b467580097e9c383acbb16adab57a"
+      "Hash": "ac50c4ffa8f6a46580dd4d7813add3c4"
     },
     "purrr": {
       "Package": "purrr",
@@ -730,7 +612,7 @@
       "Package": "rappdirs",
       "Version": "0.3.3",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R"
       ],
@@ -750,7 +632,7 @@
       "Package": "rlang",
       "Version": "1.1.4",
       "Source": "Repository",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R",
         "utils"
@@ -784,7 +666,7 @@
       "Package": "sass",
       "Version": "0.4.9",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R6",
         "fs",
@@ -793,16 +675,6 @@
         "rlang"
       ],
       "Hash": "d53dbfddf695303ea4ad66f86e99b95d"
-    },
-    "secretbase": {
-      "Package": "secretbase",
-      "Version": "1.0.1",
-      "Source": "Repository",
-      "Repository": "https://cran.rstudio.com",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "28495386ab3f1e83c237c6d519508fe7"
     },
     "snakecase": {
       "Package": "snakecase",
@@ -850,57 +722,8 @@
       "Package": "sys",
       "Version": "3.4.2",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "https://cran.rstudio.com",
       "Hash": "3a1be13d68d47a8cd0bfd74739ca1555"
-    },
-    "tarchetypes": {
-      "Package": "tarchetypes",
-      "Version": "0.9.0",
-      "Source": "Repository",
-      "Repository": "https://cran.rstudio.com",
-      "Requirements": [
-        "R",
-        "dplyr",
-        "fs",
-        "parallel",
-        "rlang",
-        "secretbase",
-        "targets",
-        "tibble",
-        "tidyselect",
-        "utils",
-        "vctrs",
-        "withr"
-      ],
-      "Hash": "094a74cdaa048b727d52aebf4c80ed7a"
-    },
-    "targets": {
-      "Package": "targets",
-      "Version": "1.7.1",
-      "Source": "Repository",
-      "Repository": "https://cran.rstudio.com",
-      "Requirements": [
-        "R",
-        "R6",
-        "base64url",
-        "callr",
-        "cli",
-        "codetools",
-        "data.table",
-        "igraph",
-        "knitr",
-        "ps",
-        "rlang",
-        "secretbase",
-        "stats",
-        "tibble",
-        "tidyselect",
-        "tools",
-        "utils",
-        "vctrs",
-        "yaml"
-      ],
-      "Hash": "d79b21ef513564351577d7064e1fc4dd"
     },
     "tibble": {
       "Package": "tibble",
@@ -925,7 +748,7 @@
       "Package": "tidyselect",
       "Version": "1.2.1",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "https://cran.rstudio.com",
       "Requirements": [
         "R",
         "cli",
@@ -936,6 +759,17 @@
         "withr"
       ],
       "Hash": "829f27b9c4919c16b593794a6344d6c0"
+    },
+    "timechange": {
+      "Package": "timechange",
+      "Version": "0.3.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cpp11"
+      ],
+      "Hash": "c5f3c201b931cd6474d17d8700ccb1c8"
     },
     "tinytex": {
       "Package": "tinytex",
@@ -1024,7 +858,7 @@
       "Package": "xfun",
       "Version": "0.46",
       "Source": "Repository",
-      "Repository": "https://cran.rstudio.com",
+      "Repository": "CRAN",
       "Requirements": [
         "grDevices",
         "stats",
@@ -1036,7 +870,7 @@
       "Package": "yaml",
       "Version": "2.3.9",
       "Source": "Repository",
-      "Repository": "https://cran.rstudio.com",
+      "Repository": "CRAN",
       "Hash": "9cb28d11799d93c953f852083d55ee9e"
     }
   }

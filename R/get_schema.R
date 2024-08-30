@@ -15,11 +15,11 @@ get_schema <- function(date, type = c("polars", "csv")) {
 
   # Mezi 2017-10 a 2017-11
   if (date <= as.Date("2017-11-01")) {
-    return(.get_schema_short(type))
+    return(.get_schema_short())
   } else if (date <= as.Date("2021-01-01")) {
-    return(.get_schema_middle(type))
+    return(.get_schema_middle())
   } else {
-    return(.get_schema_long(type))
+    return(.get_schema_long())
   }
 
 }
@@ -33,10 +33,9 @@ get_schema <- function(date, type = c("polars", "csv")) {
 #'   - csv - schéma pro [vroom::vroom()]
 #'
 #' @return Zvolené schéma
-.get_schema_short  <- function(type = c("polars", "csv")) {
-  type <- match.arg(type)
-  if (type == "polars") {
-    return(list(
+.get_schema_short  <- function() {
+  schema <- list(
+    pq = list(
       kod_adm = pl$String,
       kod_obce = pl$Categorical(),
       nazev_obce = pl$Categorical(),
@@ -53,9 +52,8 @@ get_schema <- function(date, type = c("polars", "csv")) {
       souradnice_y = pl$Float32,
       souradnice_x = pl$Float32,
       plati_od = pl$Date
-    ))
-  } else {
-    return(cols(
+    ),
+    csv = cols(
       kod_adm = col_character(),
       kod_obce = col_factor(),
       nazev_obce = col_factor(),
@@ -72,8 +70,10 @@ get_schema <- function(date, type = c("polars", "csv")) {
       souradnice_y = col_double(),
       souradnice_x = col_double(),
       plati_od = col_datetime()
-    ))
-  }
+    )
+  )
+
+  return(schema)
 }
 
 #' Střední schéma
@@ -85,9 +85,9 @@ get_schema <- function(date, type = c("polars", "csv")) {
 #'   - csv - schéma pro [vroom::vroom()]
 #'
 #' @return Zvolené schéma
-.get_schema_middle  <- function(type = c("polars", "csv")) {
-  if (type == "polars") {
-    return(list(
+.get_schema_middle  <- function() {
+  schema <- list(
+    pq = list(
       kod_adm = pl$String,
       kod_obce = pl$Categorical(),
       nazev_obce = pl$Categorical(),
@@ -107,9 +107,8 @@ get_schema <- function(date, type = c("polars", "csv")) {
       souradnice_y = pl$Float32,
       souradnice_x = pl$Float32,
       plati_od = pl$Date
-    ))
-  } else {
-    return(cols(
+    ),
+    csv = cols(
       kod_adm = col_character(),
       kod_obce = col_factor(),
       nazev_obce = col_factor(),
@@ -129,8 +128,10 @@ get_schema <- function(date, type = c("polars", "csv")) {
       souradnice_y = col_double(),
       souradnice_x = col_double(),
       plati_od = col_datetime()
-    ))
-  }
+    )
+  )
+
+  return(schema)
 }
 
 
@@ -143,9 +144,9 @@ get_schema <- function(date, type = c("polars", "csv")) {
 #'   - csv - schéma pro [vroom::vroom()]
 #'
 #' @return Zvolené schéma
-.get_schema_long  <- function(type = c("polars", "csv")) {
-  if (type == "polars") {
-    return(list(
+.get_schema_long  <- function() {
+  schema <- list(
+    pq = list(
       kod_adm = pl$String,
       kod_obce = pl$Categorical(),
       nazev_obce = pl$Categorical(),
@@ -165,9 +166,8 @@ get_schema <- function(date, type = c("polars", "csv")) {
       souradnice_y = pl$Float32,
       souradnice_x = pl$Float32,
       plati_od = pl$Date
-    ))
-  } else {
-    return(cols(
+    ),
+    csv = cols(
       kod_adm = col_character(),
       kod_obce = col_factor(),
       nazev_obce = col_factor(),
@@ -187,6 +187,8 @@ get_schema <- function(date, type = c("polars", "csv")) {
       souradnice_y = col_double(),
       souradnice_x = col_double(),
       plati_od = col_datetime()
-    ))
-  }
+    )
+  )
+
+  return(schema)
 }

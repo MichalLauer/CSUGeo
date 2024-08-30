@@ -14,52 +14,37 @@
 #' @param save_file kam spojené tabulky uložit. V případe `NULL` se tabulka neuloží.
 #'
 #' @return Spojená [tibble::tibble()]
-month_join <- function(...) {
+month_join <- function(A, B) {
 
-  # Umožňuje přijímat jak list(...), tak jenom ... od targets
-  dots <- rlang::list2(...)
-  if (length(dots) == 1 && rlang::is_bare_list(dots[[1]])) {
-    dots <- dots[[1]]
-  }
-
-  # Potřebuju to nejnovější schema
-  schema <- get_schema("2030-01-01")
-
+  # Tohle funguje, pl$with_string_cache nepoužívat
   pl$with_string_cache({
-    # Prvotní spojení do jednoho
-    lazy_joined <-
-      dots |>
-      map(\(x) {
-        pl$LazyFrame(x, schema = schema)
-      })
+    dA <- pl$read_parquet(A)
+    dB <- pl$read_parquet(B)
 
-    lazy_joined <-
-      pl$
-      concat(lazy_joined)$
-      # V případě, že je víc duplicitních záznamu kod_adm <-> plati_do, tak se vezme
-      # řádek s méně NA hodnotamy. To nastává hlavně v r. 2017 kdy se přidá kód,
-      # ale nezmění platnost
-      group_by(c("kod_adm", "plati_od"))$
-      agg(
-        pl$all()$sort_by("source", descending = TRUE)$first()
-      )$
-      sort(
-        "kod_adm", "plati_od",
-        descending = c(F, T)
-      )$
+    d <- pl$
+      concat(dA, dB)$
+      sort(c("kod_adm", "plati_od"), descending = TRUE)$
       with_columns(
-        pl$col("plati_od")$shift(1)$over("kod_adm")$alias("plati_do")
-      )$
-      with_columns(
-        ( pl$col("plati_do") - pl$duration(days=1) )$fill_null(pl$col("source"))
-      )$
-      collect()
+        pl$col("plati_od")$shift(1)$dt$offset_by("-1d")
+        $over(c("kod_adm"))
+        $fill_null(pl$col("zdroj"))
+        $alias("plati_do")
+      )
+
   })
 
-  r <-
-    as_tibble(lazy_joined) |>
-    relocate(plati_od, .after = souradnice_x) |>
-    relocate(plati_do, .after = plati_od)
+  correct_order <- c("kod_adm",
+                     "kod_obce", "nazev_obce",
+                     "kod_momc", "nazev_momc",
+                     "kod_obvodu_prahy", "nazev_obvodu_prahy",
+                     "kod_casti_obce", "nazev_casti_obce",
+                     "kod_ulice", "nazev_ulice",
+                     "typ_so", "cislo_domovni", "cislo_orientacni",
+                     "znak_cisla_orientacniho", "psc",
+                     "souradnice_x", "souradnice_y",
+                     "plati_od", "plati_do", "zdroj")
 
-  return(r)
+  df <- df$select(correct_order)
+
+  return(df)
 }
